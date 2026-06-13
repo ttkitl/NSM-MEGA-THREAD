@@ -1,0 +1,18 @@
+-- it makes your glove insta kill by sending people to another pos
+-- credits to znede for writing this(the guy for NSM) and tesker for the idea
+-- all I did is expand this globally
+local originalNamecall
+originalNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+    
+    -- Target only the game's FireServer calls on your specific speed remote
+    if not checkcaller() and method == "FireServer" and self.Name == "Event" then
+
+        args[3] = vector.create(0, -9e9, 0)
+        
+        return originalNamecall(self, unpack(args))
+    end
+
+    return originalNamecall(self, ...)
+end)
