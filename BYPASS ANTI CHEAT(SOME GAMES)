@@ -1,0 +1,22 @@
+local registry = getreg()
+local kickFunc = nil
+
+for i = 1, #registry do
+    local v = registry[i]
+    if type(v) == "function" then
+        local success, info = pcall(getinfo, v)
+        if success and info and info.name == "kick" then
+            kickFunc = v
+            break
+        end
+    end
+end
+
+if kickFunc then
+    hookfunction(kickFunc, function()
+        return nil
+    end)
+    print("hooked")
+end
+
+--credits later
